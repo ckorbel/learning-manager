@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const PageContainer = styled.div`
@@ -27,6 +28,30 @@ const InputSyled = styled.input`
 `;
 
 function RegisterPage() {
+  const [showPassword, toggleShowPassword] = useState<boolean>(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  function handlePasswordDisplay() {
+    toggleShowPassword((prevState) => !prevState);
+  }
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
+
+  function handleFormUpdate(event: React.ChangeEvent<HTMLInputElement>): void {
+    event.persist();
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  }
+
   return (
     <>
       <PageContainer className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -42,10 +67,36 @@ function RegisterPage() {
             </h2>
           </div>
           <FormContainerStyled>
-            <form className="mt-8 space-y-6" action="#" method="POST">
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <input type="hidden" name="remember" value="true" />
               <div className="-space-y-px rounded-md">
                 <div className="input-container" style={{ paddingTop: "32px" }}>
+                  <label>First name</label>
+                  <InputSyled
+                    id="first-name"
+                    name="firstName"
+                    type="text"
+                    required
+                    className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    placeholder="First name"
+                    value={formData.firstName}
+                    onChange={handleFormUpdate}
+                  />
+                </div>
+                <div className="input-container">
+                  <label>Last name</label>
+                  <InputSyled
+                    id="last-name"
+                    name="lastName"
+                    type="text"
+                    required
+                    className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    placeholder="Last name"
+                    onChange={handleFormUpdate}
+                    value={formData.lastName}
+                  />
+                </div>
+                <div className="input-container">
                   <label>Email address</label>
                   <InputSyled
                     id="email-address"
@@ -54,6 +105,8 @@ function RegisterPage() {
                     required
                     className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Email address"
+                    onChange={handleFormUpdate}
+                    value={formData.email}
                   />
                 </div>
                 <div className="input-container">
@@ -61,11 +114,16 @@ function RegisterPage() {
                   <InputSyled
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Password"
+                    onChange={handleFormUpdate}
+                    value={formData.password}
                   />
+                  {/* <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                    Invalid username field !
+                  </span> */}
                 </div>
               </div>
 
@@ -75,7 +133,9 @@ function RegisterPage() {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
+                    onClick={handlePasswordDisplay}
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    value={showPassword ? "checked" : "notChecked"}
                   />
                   <label className="ml-2 block text-sm text-gray-900">
                     Show Password

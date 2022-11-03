@@ -9,7 +9,7 @@ export function useOutsideAlerter(
 ) {
   useEffect(() => {
     /**
-     * Alert if clicked on outside of element
+     * Callback with run if clicked event occurs outside of element
      */
     function handleClickOutside(event: MouseEvent | TouchEvent): void {
       if (!ref) return;
