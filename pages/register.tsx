@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+interface RegisterFormState {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 const PageContainer = styled.div`
   background-color: #f9fafb;
 
@@ -29,23 +36,22 @@ const InputSyled = styled.input`
 
 function RegisterPage() {
   const [showPassword, toggleShowPassword] = useState<boolean>(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterFormState>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   });
 
-  function handlePasswordDisplay() {
+  function handlePasswordDisplay(): void {
     toggleShowPassword((prevState) => !prevState);
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
   }
 
   function handleFormUpdate(event: React.ChangeEvent<HTMLInputElement>): void {
-    event.persist();
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,

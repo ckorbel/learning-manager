@@ -1,4 +1,10 @@
+import React, { useState } from "react";
 import styled from "styled-components";
+
+interface LoginFormState {
+  email: string;
+  password: string;
+}
 
 const PageContainer = styled.div`
   background-color: #f9fafb;
@@ -27,6 +33,28 @@ const InputSyled = styled.input`
 `;
 
 function LoginPage() {
+  const [showPassword, toggleShowPassword] = useState<boolean>(false);
+  const [loginFormData, setLoginForm] = useState<LoginFormState>({
+    email: "",
+    password: "",
+  });
+
+  function handlePasswordDisplay(): void {
+    toggleShowPassword((prevState) => !prevState);
+  }
+
+  function handleFormUpdate(event: React.ChangeEvent<HTMLInputElement>): void {
+    setLoginForm({
+      ...loginFormData,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  function handleLogin(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    // future api call
+  }
+
   return (
     <>
       <PageContainer className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -42,18 +70,20 @@ function LoginPage() {
             </h2>
           </div>
           <FormContainerStyled>
-            <form className="mt-8 space-y-6" action="#" method="POST">
+            <form className="mt-8 space-y-6" onSubmit={handleLogin}>
               <input type="hidden" name="remember" value="true" />
               <div className="-space-y-px rounded-md">
                 <div className="input-container" style={{ paddingTop: "32px" }}>
                   <label>Email address</label>
                   <InputSyled
-                    id="email-address"
+                    id="email"
                     name="email"
-                    type="email"
+                    type="text"
                     required
                     className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                    placeholder="Email address"
+                    placeholder="Email"
+                    onChange={handleFormUpdate}
+                    value={loginFormData.email}
                   />
                 </div>
                 <div className="input-container">
@@ -61,10 +91,12 @@ function LoginPage() {
                   <InputSyled
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     placeholder="Password"
+                    onChange={handleFormUpdate}
+                    value={loginFormData.password}
                   />
                 </div>
               </div>
@@ -76,6 +108,8 @@ function LoginPage() {
                     name="remember-me"
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    onClick={handlePasswordDisplay}
+                    value={showPassword ? "checked" : "notChecked"}
                   />
                   <label className="ml-2 block text-sm text-gray-900">
                     Show Password
