@@ -29,8 +29,6 @@ export function useOutsideAlerter(
 }
 
 /* Example Implementation for custom useOutsideAlerter hook
-
-
 function SomeComponent(props) {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);

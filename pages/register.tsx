@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 interface RegisterFormState {
@@ -35,6 +36,7 @@ const InputSyled = styled.input`
 `;
 
 function RegisterPage() {
+  const router = useRouter();
   const [showPassword, toggleShowPassword] = useState<boolean>(false);
   const [formData, setFormData] = useState<RegisterFormState>({
     firstName: "",
@@ -49,6 +51,7 @@ function RegisterPage() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
+    router.push("/homepage");
   }
 
   function handleFormUpdate(event: React.ChangeEvent<HTMLInputElement>): void {

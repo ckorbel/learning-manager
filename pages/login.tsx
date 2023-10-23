@@ -1,4 +1,7 @@
+"use client";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styled from "styled-components";
 
 interface LoginFormState {
@@ -33,6 +36,7 @@ const InputSyled = styled.input`
 `;
 
 function LoginPage() {
+  const router = useRouter();
   const [showPassword, toggleShowPassword] = useState<boolean>(false);
   const [loginFormData, setLoginForm] = useState<LoginFormState>({
     email: "",
@@ -53,6 +57,9 @@ function LoginPage() {
   function handleLogin(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     // future api call
+
+    // TODO: some validation redirect to homepage
+    router.push("/homepage");
   }
 
   return (

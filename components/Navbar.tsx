@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useOutsideAlerter } from "../utils/customHooks/useOutsideAlerter";
 
 function Navbar() {
-  const [displayProfileDropdown, setProfileDropdown] = useState<Boolean>(false);
+  const [displayProfileDropdown, setProfileDropdown] = useState<boolean>(false);
 
   function handleClickOutsideProfile() {
     setProfileDropdown(false);
